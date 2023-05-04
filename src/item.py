@@ -1,4 +1,5 @@
 import csv
+
 class Item:
     """
     Класс для представления товара в магазине.
@@ -26,7 +27,6 @@ class Item:
 
         :return: Общая стоимость товара.
         """
-        #Item.all.append(total)
         return total
 
     def apply_discount(self) -> None:
@@ -46,23 +46,27 @@ class Item:
         if len(name) < 11:
             self.__name = name
             print(name)
-        #else:
-            #raise ValueError('Ошибка: в наименовании товара больше 10 символов')
+        else:
+            print(Exception('Ошибка: в наименовании товара больше 10 символов'))
 
     @classmethod
-    def instantiate_from_csv(cls):
-        with open('items.csv', newline='') as csvfile:
+    def instantiate_from_csv(cls) -> None:
+        with open('items.csv', 'r', encoding='windows-1251') as csvfile:
             reader = csv.DictReader(csvfile)
-            pass
+            for row in reader:
+                item = cls(row.get('name'), float(row.get('price')), int(row.get('quantity')))
+                cls.all.append(item)
 
     @staticmethod
     def string_to_number(num):
-        return float(num)
+        return float(num).__int__()
 
+   
 
+  
 
 
 item = Item('Телефон', 10000, 5)
 item.name = 'СуперСмартфон'
 print(item.name)
-print(Item.instantiate_from_csv())
+
